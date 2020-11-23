@@ -1,0 +1,14 @@
+<div class="container text-center col-lg-6">
+  <h3 style="text-align: left">Wähle ein Geschäft für einen Termin:</h3>
+  <br>
+  <div class="search-hero">
+    <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Firmen suchen">
+  </div>
+    <table class="table table-striped">
+    <tbody>
+      <tr *ngFor="let hero of owner2 | filter:searchText">
+        <td style="text-align: left" routerLink="terminErstellen/{{hero.ownerId}}"> {{hero.firma}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

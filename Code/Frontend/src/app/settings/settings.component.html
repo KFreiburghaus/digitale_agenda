@@ -1,0 +1,109 @@
+<div class="settings form-group">
+    <div class="arbeitstage">
+        <h4>Arbeitstage einstellen</h4>
+        <p>Welche Tage sollen für die Termine zur Verfügung stehen?</p>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="montag"
+                   [(ngModel)]="arbeitstageDto.monday">
+            <label class="form-check-label" for="inlineCheckbox1">Montag</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="dienstag"
+                   [(ngModel)]="arbeitstageDto.thuesday">
+            <label class="form-check-label" for="inlineCheckbox2">Dienstag</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="mittwoch"
+                   [(ngModel)]="arbeitstageDto.wednesday">
+            <label class="form-check-label" for="inlineCheckbox3">Mittwoch</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="donnerstag"
+                   [(ngModel)]="arbeitstageDto.thursday">
+            <label class="form-check-label" for="inlineCheckbox3">Donnerstag</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="freitag"
+                   [(ngModel)]="arbeitstageDto.friday">
+            <label class="form-check-label" for="inlineCheckbox3">Freitag</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="samstag"
+                   [(ngModel)]="arbeitstageDto.saturday">
+            <label class="form-check-label" for="inlineCheckbox3">Samstag</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox7" value="sonntag"
+                   [(ngModel)]="arbeitstageDto.sunday">
+            <label class="form-check-label" for="inlineCheckbox3">Sonntag</label>
+        </div>
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary" (click)="submitArbeitstage()">Speichern</button>
+        <span *ngIf="arbeitstageSaved" style="color: green; font-size: 10px">Erfolgreich gespeichert</span>
+    </div>
+    <br>
+    <br>
+    <div class="ferien">
+        <div class="form-inline">
+            <h4>Ferien einstellen</h4>
+            <button style="margin-left: 2em" type="submit" class="btn btn-dark" (click)="onAdd()">+</button>
+        </div>
+
+        <ng-container *ngFor="let a of ferienArray; let i =index">
+            <br>
+            <div class="row">
+                <div class="col-lg-12">
+                    <form class="input-group">
+                        <label>Ferienstart: </label>
+                        <input style="text-align: center" [readOnly]="speichernEnabled[i]" type="date"
+                               class="form-control" [min]="todayString" onkeydown="return false"
+                               [(ngModel)]="a.ferienStart" name="startDate{{i}}">
+                        <br>
+                        <label style="padding-left: 2em">Ferienende:</label>
+                        <input style="text-align: center" [readOnly]="speichernEnabled[i]" type="date"
+                               class="form-control" [min]="todayString" onkeydown="return false"
+                               [(ngModel)]="a.ferienEnde" name="endDate{{i}}">
+                        <button [disabled]="speichernEnabled[i]" style="margin-left: 1em" class="btn btn-primary"
+                                (click)="submitFerien()">Speichern
+                        </button>
+                        <button class="btn btn-danger" (click)="deleteFerien(i)">Entfernen</button>
+                    </form>
+
+                </div>
+            </div>
+        </ng-container>
+        <span *ngIf="ferienFehler"
+              style="color: red; font-size: 10px">
+                  Ferienende kann nicht hinter Ferienstart liegen!
+                </span>
+    </div>
+    <br>
+    <br>
+    <div class="arbeitszeit">
+        <h4>Arbeitszeiten eintragen</h4>
+        <br>
+        <label>Arbeitsbeginn: </label>
+        <select (change)="selectChangeHandlerStartTime($event)">
+            <ng-container *ngFor="let o of options; let i=index">
+                <option selected disabled hidden>{{selectedStart}}</option>
+                <option>{{o.value}}</option>
+            </ng-container>
+        </select>
+        <label style="padding-left: 2em">Arbeitsende: </label>
+        <select (change)="selectChangeHandlerEndTime($event)">
+            <ng-container *ngFor="let o of options; let i=index">
+                <option selected disabled hidden>{{selectedEnd}}</option>
+                <option>{{o.value}}</option>
+            </ng-container>
+        </select>
+        <span *ngIf="arbeitszeitFehler"
+              style="color: red; font-size: 10px">
+                  Der Wert von Arbeitsende darf nicht kleiner sein als der von Arbeitsbeginn!
+                </span>
+    </div>
+
+    <br>
+    <button class="btn btn-primary" (click)="submitArbeitszeit()" [attr.disabled]="!(isSelectedStartTime && isSelectedEndTime) ? '' : null">Speichern</button>
+    <span *ngIf="arbeitszeitSaved" style="color: green; font-size: 10px">Erfolgreich gespeichert</span>
+</div>

@@ -1,0 +1,22 @@
+<header>
+  <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <div class="flex-grow-1">
+      <a aria-label="Home" class="logo" routerLink="/">
+        <span class="reddit-text">Digitale Agenda
+        </span>
+      </a>
+
+    </div>
+    <div *ngIf="getLoggedUser !== null" class="flex-grow-1 float-right">
+      Herzlich Willkommen {{ getVorname }} {{ getNachname }}
+    </div>
+      <div class="flex-grow-1 float-right">
+        <a routerLink="/" *ngIf="loginService.loggedIn()" (click)="logoutUser()" class="float-right login mr-2">Logout</a>
+        <a routerLink="/login" *ngIf="!loginService.loggedIn()" class="float-right signup mr-2">Login</a>
+        <a routerLink="/sign-up" *ngIf="!loginService.loggedIn()" class="float-right signup mr-2">Geschäft Registrieren</a>
+        <a routerLink="/calendar" *ngIf="loginService.loggedIn()" class="float-right login mr-2">Kalender</a>
+        <a routerLink="/settings" *ngIf="loginService.loggedIn()" class="float-right login mr-2">Einstellungen</a>
+        <a routerLink="/termine" class="float-right login mr-2">Termin erstellen</a>
+      </div>
+  </nav>
+</header>

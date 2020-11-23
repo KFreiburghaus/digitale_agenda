@@ -1,0 +1,19 @@
+<div class="container login col-lg-6">
+  <h2>Login für Geschäfte</h2>
+  <br>
+  <form [formGroup]="loginForm" (ngSubmit)="f.form.valid && login()" #f="ngForm">
+      <div class="form-group">
+        <label for="inputEmail4"></label>
+        <input type="email" [formControlName]="'username'" [ngClass]="{'error': isValid('username')}" placeholder="E-Mail" class="form-control" id="inputEmail4">
+
+      <div class="form-group">
+        <label for="inputPassword4"></label>
+        <input type="password" [formControlName]="'password'" [ngClass]="{'error': isValid('password')}" placeholder="Passwort"  class="form-control" id="inputPassword4">
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="!f.valid"  class="float-left mr-2 btn btn-primary">Login</button>
+    <a routerLink="/sign-up" class="float-left mr-2 btn btn-outline-primary">Registrieren</a>
+
+  </form>
+</div>

@@ -1,0 +1,83 @@
+<div class="container col-lg-6">
+    <h3> Termin erstellen bei {{firma}}</h3>
+    <h5 *ngIf="isHoliday" style="color: red">{{firma}} ist von {{ferienStart}} bis {{ferienEnd}} in den Ferien</h5>
+    <br>
+    <form [formGroup]="createTerminForm" (ngSubmit)="createTermin()" #f="ngForm">
+        <div class="form-group">
+            <input type="date" [min]="todayString" class="form-control" [formControlName]="'datum'" placeholder="dd.mm.yyyy"
+                   (change)="selectChangeHandlerDatum($event)" onkeydown="return false"
+                   [attr.disabled]="isSelectedEndTime ? '' : null">
+            <span *ngIf="blockEverything"
+                  style="color: red; font-size: 10px">
+                  Betrieb geschlossen!
+                </span>
+        </div>
+        <div class="form-group">
+            <input type="text" [formControlName]="'vorname'" class="form-control" placeholder="Vorname"
+                   [attr.disabled]="blockEverything || isHoliday ? '' : null">
+            <span *ngIf="!createTerminForm.get('vorname').valid && createTerminForm.get('vorname').touched"
+                  style="color: red; font-size: 10px">
+                  Vorname erforderlich
+            </span>
+        </div>
+        <div class="form-group">
+            <input type="text" [formControlName]="'nachname'" class="form-control" placeholder="Nachname"
+                   [attr.disabled]="blockEverything || isHoliday ? '' : null">
+            <span *ngIf="!createTerminForm.get('nachname').valid && createTerminForm.get('nachname').touched"
+                  style="color: red; font-size: 10px">
+                  Nachname erforderlich
+            </span>
+        </div>
+        <div class="form-group">
+            <input type="email" [formControlName]="'email'" class="form-control" placeholder="E-Mail Adresse"
+                   [attr.disabled]="blockEverything || isHoliday ?  '' : null">
+            <span *ngIf="!createTerminForm.get('email').valid && createTerminForm.get('email').touched"
+                  style="color: red; font-size: 10px">
+                  Gültige E-Mail Adresse erforderlich
+            </span>
+        </div>
+        <div class="form-group">
+            <label>Wählen Sie die Startzeit</label>
+            <br>
+            <div>
+                <select *ngIf="isWindows" [formControlName]="'startTime'" (click)="selectChangeHandlerStartTime($event)"
+                        [attr.disabled]="!isSelectedDate || blockEverything  || isHoliday? '' : null">
+
+                    <ng-container *ngFor="let o of options; let i=index">
+                        <option selected disabled hidden [disabled]="true">--:--</option>
+                        <option>{{o.value}}</option>
+
+                    </ng-container>
+                </select>
+                <select *ngIf="isMacOs" [formControlName]="'startTime'" (click)="selectChangeHandlerStartTime2($event)" (change)="selectChangeHandlerStartTime3($event)"
+                        [attr.disabled]="!isSelectedDate || blockEverything  || isHoliday? '' : null">
+
+                    <ng-container *ngFor="let o of options; let i=index">
+                        <option selected disabled hidden [disabled]="true">--:--</option>
+                        <option>{{o.value}}</option>
+
+                    </ng-container>
+                </select>
+            </div>
+            <span *ngIf="!createTerminForm.get('startTime').valid && createTerminForm.get('startTime').touched"
+                  style="color: red; font-size: 10px">
+                  Gültige E-Mail Adresse erforderlich
+            </span>
+        </div>
+        <div class="form-group">
+            <label>Wählen Sie die Endzeit</label>
+            <br>
+            <div>
+                <select [formControlName]="'endTime'" (click)="selectChangeHandlerEndTime($event)"
+                        [attr.disabled]="!isSelectedStartTime ? '' : null">
+                    <ng-container *ngFor="let o of options; let i=index">
+                        <option selected disabled hidden>--:--</option>
+                        <option>{{o.value}}</option>
+                    </ng-container>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Termin buchen</button>
+        <a routerLink="/termine" class="float-left mr-2 btn btn-outline-primary">zurück</a>
+    </form>
+</div>
